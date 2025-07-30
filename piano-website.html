@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piano Online - Tu Guía Completa para Aprender Piano</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: #667eea;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        main {
+            margin-top: 80px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
+            box-shadow: 0 4px 15px rgba(238, 90, 111, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(238, 90, 111, 0.6);
+        }
+
+        section {
+            padding: 4rem 0;
+            background: white;
+            margin: 2rem 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        section:nth-child(even) {
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #333;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .piano-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .info-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #667eea;
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .info-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .step-number {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .piano-visual {
+            background: #222;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 2rem auto;
+            max-width: 800px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .piano-keys {
+            display: flex;
+            position: relative;
+        }
+
+        .white-key {
+            width: 40px;
+            height: 200px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 0 0 5px 5px;
+            margin: 0 1px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .white-key:hover {
+            background: #f0f0f0;
+            transform: scale(1.02);
+        }
+
+        .black-key {
+            width: 25px;
+            height: 120px;
+            background: #333;
+            position: absolute;
+            border-radius: 0 0 3px 3px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 2;
+        }
+
+        .black-key:hover {
+            background: #555;
+            transform: scale(1.05);
+        }
+
+        .black-key:nth-child(1) { left: 28px; }
+        .black-key:nth-child(2) { left: 70px; }
+        .black-key:nth-child(3) { left: 154px; }
+        .black-key:nth-child(4) { left: 196px; }
+        .black-key:nth-child(5) { left: 238px; }
+
+        .tips {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+        }
+
+        .tips h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .tips ul {
+            list-style: none;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .tips li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .tips li::before {
+            content: '🎹';
+            position: absolute;
+            left: 0;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .piano-keys {
+                transform: scale(0.8);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">🎹 Piano Online</a>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#info">Información</a></li>
+                <li><a href="#primeros-pasos">Primeros Pasos</a></li>
+                <li><a href="#tips">Consejos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="inicio" class="hero">
+            <div class="container">
+                <h1>Aprende Piano Online</h1>
+                <p>Descubre el maravilloso mundo del piano con nuestra guía completa para principiantes</p>
+                <a href="#primeros-pasos" class="cta-button">Comenzar Ahora</a>
+            </div>
+        </section>
+
+        <section id="info">
+            <div class="container">
+                <h2>Todo Sobre el Piano</h2>
+                
+                <div class="piano-visual">
+                    <div class="piano-keys">
+                        <div class="white-key" data-note="C"></div>
+                        <div class="white-key" data-note="D"></div>
+                        <div class="white-key" data-note="E"></div>
+                        <div class="white-key" data-note="F"></div>
+                        <div class="white-key" data-note="G"></div>
+                        <div class="white-key" data-note="A"></div>
+                        <div class="white-key" data-note="B"></div>
+                        
+                        <div class="black-key" data-note="C#"></div>
+                        <div class="black-key" data-note="D#"></div>
+                        <div class="black-key" data-note="F#"></div>
+                        <div class="black-key" data-note="G#"></div>
+                        <div class="black-key" data-note="A#"></div>
+                    </div>
+                </div>
+
+                <div class="piano-info">
+                    <div class="info-card">
+                        <h3>Historia del Piano</h3>
+                        <p>El piano fue inventado en 1700 por Bartolomeo Cristofori en Italia. Su nombre original era "gravicembalo col piano e forte", que significa "clavicémbalo con suave y fuerte", haciendo referencia a su capacidad de producir sonidos de diferentes intensidades.</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3>Tipos de Piano</h3>
+                        <p>Existen tres tipos principales: el piano de cola (gran sonoridad), el piano vertical (ideal para espacios pequeños) y el piano digital (versátil y sin necesidad de afinación). Cada uno tiene características únicas que se adaptan a diferentes necesidades.</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3>Beneficios de Tocar Piano</h3>
+                        <p>Tocar piano mejora la coordinación, estimula ambos hemisferios del cerebro, reduce el estrés, mejora la concentración y desarrolla la disciplina. Es una actividad completa que beneficia tanto la mente como el cuerpo.</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3>Anatomía del Piano</h3>
+                        <p>Un piano tiene 88 teclas (52 blancas y 36 negras), pedales (sostén, sordina y una corda), cuerdas, martillos y un mecanismo complejo que convierte la presión de las teclas en sonido musical.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="primeros-pasos">
+            <div class="container">
+                <h2>Primeros Pasos para Principiantes</h2>
+                
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Postura Correcta</h3>
+                        <p>Siéntate en el borde del banco, espalda recta, pies planos en el suelo. Los brazos deben colgar naturalmente y las muñecas estar a la altura de las teclas.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Posición de las Manos</h3>
+                        <p>Mantén las manos redondeadas como si sostuvieras una pelota pequeña. Los dedos deben estar curvados y tocar las teclas con las yemas, no con las uñas.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Aprende las Notas</h3>
+                        <p>Familiarízate con las teclas blancas: Do, Re, Mi, Fa, Sol, La, Si. Encuentra el Do central como punto de referencia en el teclado.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>Digitación Básica</h3>
+                        <p>Aprende la numeración de los dedos: pulgar (1), índice (2), medio (3), anular (4), meñique (5). Practica escalas simples con la digitación correcta.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <h3>Ejercicios de Coordinación</h3>
+                        <p>Comienza con ejercicios simples para cada mano por separado, luego gradualmente combina ambas manos. La paciencia es clave en este proceso.</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">6</div>
+                        <h3>Primeras Melodías</h3>
+                        <p>Empieza con canciones simples como "Twinkle, Twinkle, Little Star" o "Mary Had a Little Lamb". Estas te ayudarán a aplicar lo aprendido.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tips" class="tips">
+            <div class="container">
+                <h3>Consejos Importantes para Principiantes</h3>
+                <ul>
+                    <li>Practica regularmente, aunque sea solo 15-20 minutos diarios</li>
+                    <li>Mantén un tempo constante usando un metrónomo</li>
+                    <li>No te apresures - la precisión es más importante que la velocidad</li>
+                    <li>Escucha mucha música de piano para desarrollar tu oído musical</li>
+                    <li>Considera tomar clases con un profesor para corregir errores temprano</li>
+                    <li>Sé paciente contigo mismo - aprender piano es un proceso gradual</li>
+                    <li>Mantén las uñas cortas para mejor técnica</li>
+                    <li>Calienta siempre antes de practicar con ejercicios suaves</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Piano Online. Tu camino hacia la música comienza aquí.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling para los enlaces de navegación
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Efecto de sonido simple para las teclas del piano
+        const whiteKeys = document.querySelectorAll('.white-key');
+        const blackKeys = document.querySelectorAll('.black-key');
+        
+        // Frecuencias básicas para las notas
+        const frequencies = {
+            'C': 261.63,
+            'C#': 277.18,
+            'D': 293.66,
+            'D#': 311.13,
+            'E': 329.63,
+            'F': 349.23,
+            'F#': 369.99,
+            'G': 392.00,
+            'G#': 415.30,
+            'A': 440.00,
+            'A#': 466.16,
+            'B': 493.88
+        };
+
+        function playNote(frequency) {
+            // Crear contexto de audio simple
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+
+        // Agregar eventos de click a las teclas
+        [...whiteKeys, ...blackKeys].forEach(key => {
+            key.addEventListener('click', function() {
+                const note = this.dataset.note;
+                if (frequencies[note]) {
+                    playNote(frequencies[note]);
+                }
+            });
+        });
+
+        // Animación al hacer scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observar elementos para animación
+        document.querySelectorAll('.info-card, .step').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
